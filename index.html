@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DakshLogic</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f8ff;
+            background-image: url('https://source.unsplash.com/901600x0/?technology');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background-color: rgba(137, 194, 251, 0.8);
+        }
+        .logo {
+            height: 70px;
+        }
+        .company-name {
+            flex-grow: 1;
+            text-align: center;
+            font-size: 32px;
+            font-weight: bold;
+            color: #ffffff;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px;
+            justify-content: center;
+            text-align: center;
+        }
+        .login-form, .dashboard {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 50px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            margin-top: 30px;
+        }
+        input[type="text"], input[type="password"], input[type="date"] {
+            width: 100%;
+            padding: 12px;
+            margin: 12px 0;
+            background-color: rgba(137, 194, 251, 0.8);
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        button {
+            background-color: rgba(137, 194, 251, 0.8);
+            color: white;
+            margin-top: 25px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background: rgba(137, 194, 251, 0.8);
+        }
+        .task-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .task-item {
+            background-color: #e6f2ff;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: left;
+            transition: background-color 0.3s;
+        }
+        .task-item:hover {
+            background-color: #cce6ff;
+        }
+        .error {
+            color: #ff4136;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .team-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+        .team-section {
+            background: rgba(137, 194, 251, 0.8);
+            width: calc(33% - 20px);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+        .new-task-form {
+            margin-top: 30px;
+        }
+        .update-button {
+            background-color: rgba(137, 194, 251, 0.8);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .update-button:hover {
+            background-color: rgba(137, 194, 251, 0.8);
+        }
+        .logout-btn {
+            background-color: #ff4136;
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+        .logout-btn:hover {
+            background-color: #dc352d;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="daksh.jpeg".jpeg" alt="Logo" class="logo">
+        <h1 class="company-name">DakshLogic</h1>
+        <a href="index.html" class="logout-btn">Logout</a>
+        <div style="width: 70px;"></div>
+    </div>
+    
+    <div class="container">
+        <div id="loginForm" class="login-form">
+            <h2>Login to DakshLogic</h2>
+            <input type="text" id="username" placeholder="Username">
+            <input type="password" id="password" placeholder="Password">
+            <button onclick="attemptLogin()">Login</button>
+            <p id="loginError" class="error"></p>
+        </div>
+        <div id="employeeDashboard" class="dashboard" style="display:none;">
+            <h2 style="text-decoration: underline;">Welcome Daksh</h2>
+            <div>
+                <p>
+                    Member: Software Development Team
+                </p>
+            </div>
+            <h3>My Tasks</h3>
+            <form id="employeeTasksForm">
+                <div id="employeeTasks" class="task-list"></div>
+                <button type="button" class="update-button" onclick="updateEmployeeTasks()">Update Tasks</button>
+            </form>
+        </div>
+        <div id="adminDashboard" class="dashboard" style="display:none;">
+            <h2>DakshLogic Admin Dashboard</h2>
+            <div class="team-container">
+                <div class="team-section">
+                    <h2>Software Development Team</h2>
+                    <hr>
+                    <p style="font-size: small;"> Members: Daksh, Himayra, Akshit</p>
+                    <hr>
+                    <h3>Tasks:</h3>
+                    <div id="softwareDevelopmentTasks"></div>
+                    <div class="new-task-form">
+                        <h4>Add New Task</h4>
+                        <input type="text" id="newSoftwareDevelopmentTask" placeholder="Task Name">
+                        <input type="date" id="newSoftwareDevelopmentDeadline">
+                        <button onclick="addNewTeamTask('softwareDevelopment')">Add Task</button>
+                    </div>
+                </div>
+                <div class="team-section">
+                    <h2>Quality Assurance Team</h2>
+                    <hr>
+                    <p style="font-size: small;">Members: Garima, Abhiraj, Aditya</p>
+                    <hr>
+                    <h3>Tasks:</h3>
+                    <div id="qualityAssuranceTasks"></div>
+                    <div class="new-task-form">
+                        <h4>Add New Task</h4>
+                        <input type="text" id="newQualityAssuranceTask" placeholder="Task Name">
+                        <input type="date" id="newQualityAssuranceDeadline">
+                        <button onclick="addNewTeamTask('qualityAssurance')">Add Task</button>
+                    </div>
+                </div>
+                <div class="team-section">
+                    <h2>Product Management Team</h2>
+                    <hr>
+                    <p style="font-size: small;">Members: Pooja, Riya, Ananya</p>
+                    <hr>
+                    <h3>Tasks:</h3>
+                    <div id="productManagementTasks"></div>
+                    <div class="new-task-form">
+                        <h4>Add New Task</h4>
+                        <input type="text" id="newProductManagementTask" placeholder="Task Name">
+                        <input type="date" id="newProductManagementDeadline">
+                        <button onclick="addNewTeamTask('productManagement')">Add Task</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var users = [
+            { id: 1, username: "admin", password: "admin123", role: "admin" },
+            { id: 2, username: "employee", password: "emp123", role: "employee" }
+        ];
+
+        var tasks = [
+            { id: 1, name: "Implement user authentication", description: "Develop a secure user authentication system for the new web application", assignedTo: 2, completed: false },
+            { id: 2, name: "Optimize database queries", description: "Improve the performance of database queries for faster data retrieval", assignedTo: 2, completed: false },
+            { id: 3, name: "Develop RESTful API", description: "Create a RESTful API for the mobile app to communicate with the server", assignedTo: 2, completed: false },
+            { id: 4, name: "Implement caching mechanism", description: "Design and implement a caching system to reduce server load", assignedTo: 2, completed: false },
+            { id: 5, name: "Code review", description: "Perform a code review for the recent feature implementations", assignedTo: 2, completed: false }
+        ];
+
+        var teamTasks = {
+            softwareDevelopment: [
+                { id: 1, name: "Develop new feature for mobile app", deadline: "2024-09-20", completed: false },
+                { id: 2, name: "Refactor legacy code", deadline: "2024-09-25", completed: true }
+            ],
+            qualityAssurance: [
+                { id: 1, name: "Perform regression testing", deadline: "2024-09-22", completed: false },
+                { id: 2, name: "Create automated test scripts", deadline: "2024-09-28", completed: true }
+            ],
+            productManagement: [
+                { id: 1, name: "Conduct user research for new feature", deadline: "2024-09-18", completed: true },
+                { id: 2, name: "Create product roadmap for Q4", deadline: "2024-09-23", completed: false }
+            ]
+        };
+
+        var currentUser = null;
+
+        function login(username, password) {
+            for (var i = 0; i < users.length; i++) {
+                if (users[i].username === username && users[i].password === password) {
+                    currentUser = users[i];
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function getEmployeeTasks(userId) {
+            return tasks.filter(task => task.assignedTo === userId);
+        }
+
+        function attemptLogin() {
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+            if (login(username, password)) {
+                document.getElementById('loginForm').style.display = 'none';
+                if (currentUser.role === 'admin') {
+                    document.getElementById('adminDashboard').style.display = 'block';
+                    displayTeamTasks();
+                } else {
+                    document.getElementById('employeeDashboard').style.display = 'block';
+                    displayEmployeeTasks();
+                }
+            } else {
+                document.getElementById('loginError').textContent = 'Invalid username or password';
+            }
+        }
+
+        function displayEmployeeTasks() {
+            var taskList = document.getElementById('employeeTasks');
+            taskList.innerHTML = '';
+            var employeeTasks = getEmployeeTasks(currentUser.id);
+            employeeTasks.forEach(task => {
+                var div = document.createElement('div');
+                div.className = 'task-item';
+                div.innerHTML = `
+                    <input type="checkbox" id="task_${task.id}" name="task_${task.id}" ${task.completed ? 'checked' : ''}>
+                    <label for="task_${task.id}">${task.name}: ${task.description}</label>
+                `;
+                taskList.appendChild(div);
+            });
+        }
+
+        function updateEmployeeTasks() {
+            var employeeTasks = getEmployeeTasks(currentUser.id);
+            employeeTasks.forEach(task => {
+                var checkbox = document.querySelector(input[id="task_${task.id}"]);
+                if (checkbox) {
+                    task.completed = checkbox.checked;
+                }
+            });
+            alert('Tasks updated successfully!');
+        }
+
+        function displayTeamTasks() {
+            displayTasksForTeam('softwareDevelopment');
+            displayTasksForTeam('qualityAssurance');
+            displayTasksForTeam('productManagement');
+        }
+
+        function displayTasksForTeam(team) {
+            var tasksContainer = document.getElementById(team + 'Tasks');
+            tasksContainer.innerHTML = '';
+            teamTasks[team].forEach(task => {
+                var taskElement = document.createElement('div');
+                taskElement.className = 'task-item';
+                taskElement.innerHTML = `
+                    <input type="checkbox" id="${team}task${task.id}" name="${team}task${task.id}" ${task.completed ? 'checked' : ''} onchange="updateTaskStatus('${team}', ${task.id}, this.checked)">
+                    <label for="${team}task${task.id}">${task.name} (Deadline: ${task.deadline})</label>
+                `;
+                tasksContainer.appendChild(taskElement);
+            });
+        }
+
+        function updateTaskStatus(team, taskId, completed) {
+            var task = teamTasks[team].find(t => t.id === taskId);
+            if (task) {
+                task.completed = completed;
+            }
+        }
+
+        function addNewTeamTask(team) {
+            var taskName = document.getElementById('new' + team.charAt(0).toUpperCase() + team.slice(1) + 'Task').value;
+            var taskDeadline = document.getElementById('new' + team.charAt(0).toUpperCase() + team.slice(1) + 'Deadline').value;
+            if (taskName && taskDeadline) {
+                var newTask = {
+                    id: teamTasks[team].length + 1,
+                    name: taskName,
+                    deadline: taskDeadline,
+                    completed: false
+                };
+                teamTasks[team].push(newTask);
+                displayTasksForTeam(team);
+                document.getElementById('new' + team.charAt(0).toUpperCase() + team.slice(1) + 'Task').value = '';
+                document.getElementById('new' + team.charAt(0).toUpperCase() + team.slice(1) + 'Deadline').value = '';
+            }
+        }
+    </script>
+</body>
+</html>
